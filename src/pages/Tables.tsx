@@ -64,14 +64,29 @@ const Tables = () => {
      */
 
 
-    const handleSearch = () => {
+    const handleSearch = async() => {
+        // const checkTimeBooking = formBooking.
         if (!date || !time || !guests) {
             setSearched(false);
             return;
         }
-
+try{
+    const res = await fetch(
+            `http://localhost:5000/tables/available?date=${date}&time=${time}&guests=${guests}`
+          );
+    const data = await res.json();
+    console.log("data",data)
+     if(!res.ok){
         setSearched(true);
-
+        // 
+        // console.log("tables",tables)
+     }
+      setTables([]);
+      setTables(data.table);
+      setSearched(false)
+}catch(error){
+    console.error(error)
+}
         /*
          * Later:
          *
@@ -267,14 +282,14 @@ console.log("Tables",tables)
 
                 {searched && (
                     <Alert
-                        severity="success"
+                        severity={searched ? "error" :"success"}
                         sx={{
                             mb: 4,
                             borderRadius: 2,
                         }}
                     >
-                        Available tables for {date} at {time} for{" "}
-                        {guests}{" "}
+                        {searched ? `There is No Available tables for ${date} at ${time} for ${guests}`:`Available tables for ${date} at ${time} for ${guests}`}
+                        {}
                         {Number(guests) === 1
                             ? "guest"
                             : "guests"}.

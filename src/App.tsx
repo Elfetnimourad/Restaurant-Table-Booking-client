@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import { AuthProvider } from "./context/authContext";
+import Profile from "./components/Profile";
 
 function App() {
     return (
@@ -33,6 +34,8 @@ function App() {
 
                 {/* Protected Customer Routes */}
                 <Route element={<ProtectedRoute />}>
+                    <Route path="/profile" element={<Profile />} />
+
                     <Route path="/tables" element={<Tables />} />
                     <Route path="/my-bookings" element={<MyBookings />} />
                     <Route

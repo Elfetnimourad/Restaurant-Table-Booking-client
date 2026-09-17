@@ -20,8 +20,10 @@ import {
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] =
         useState<null | HTMLElement>(null);
@@ -41,8 +43,18 @@ console.log("userData from Navbar",userData)
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorEl(null);
+         setAnchorEl(null);
     };
+    const handelProfile = () =>{
+        handleCloseUserMenu()
+        navigate('/profile')
+    }
+    const handelLogout = () =>{
+        handleCloseUserMenu()
+        localStorage.removeItem("token");
+        navigate("/login")
+        
+    }
 
     const navigation = [
         {
@@ -195,7 +207,7 @@ console.log("userData from Navbar",userData)
                                 >
                                     <MenuItem
                                         onClick={
-                                            handleCloseUserMenu
+                                            handelProfile
                                         }
                                     >
                                         Profile
@@ -203,7 +215,7 @@ console.log("userData from Navbar",userData)
 
                                     <MenuItem
                                         onClick={
-                                            handleCloseUserMenu
+                                            handelLogout
                                         }
                                     >
                                         Logout
@@ -293,16 +305,16 @@ console.log("userData from Navbar",userData)
                             </>
                         ) : (
                             <>
-                                <ListItem disablePadding>
-                                    <ListItemButton>
+                                <ListItem >
+                                    <ListItemButton onClick={handelProfile}>
                                         <ListItemText
                                             primary="Profile"
                                         />
                                     </ListItemButton>
                                 </ListItem>
 
-                                <ListItem disablePadding>
-                                    <ListItemButton>
+                                <ListItem >
+                                    <ListItemButton onClick={handelLogout}>
                                         <ListItemText
                                             primary="Logout"
                                         />
@@ -318,3 +330,4 @@ console.log("userData from Navbar",userData)
 };
 
 export default Navbar;
+{/* <span class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-rizt0-MuiTypography-root">Profile</span> */}
